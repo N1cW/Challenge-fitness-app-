@@ -1,0 +1,35 @@
+# Local source material and deliverables may contain personal data.
+references/
+deliverables/
+
+# Temporary analysis and document renders.
+work/reference_dump.txt
+work/render_*/
+work/artifact.md
+work/*.json
+work/*.py
+work/*.ps1
+work/*.cjs
+work/*.mjs
+work/screenshots/
+work/presentation_build/
+AGENT_COURSEWORK_PROMPT.md
+
+# Python and test artefacts.
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.hypothesis/
+.coverage
+
+# Node and build artefacts.
+node_modules/
+dist/
+
+# Secrets and local settings.
+.env
+.env.*
+!.env.example
+*.sqlite3
+*.db
