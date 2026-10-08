@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b20">
+  <title>Импульс — спортивные челленджи</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="Импульс — главная"><span class="brand-mark">↗</span><span>ИМПУЛЬС</span></a>
+      <nav aria-label="Основная навигация">
+        <a href="#home" class="nav-link active">Главная</a>
+        <a href="#challenges" class="nav-link">Челленджи</a>
+        <a href="#about" class="nav-link">О платформе</a>
+      </nav>
+      <div class="account-area" id="account-area"><button class="button button-outline" id="login-open">Войти</button></div>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-line"></span> ДВИЖЕНИЕ НАЧИНАЕТСЯ ЗДЕСЬ</p>
+          <h1>Каждый шаг<br><em>имеет значение.</em></h1>
+          <p class="hero-lead">Выбирайте спортивные челленджи, отмечайте прогресс и достигайте цели вместе с другими участниками.</p>
+          <div class="hero-actions"><a class="button button-primary" href="#challenges">Найти челлендж <span>↗</span></a><button class="button button-light" id="hero-create">Создать свой</button></div>
+          <div class="hero-stats"><div><strong id="stat-challenges">—</strong><span>челленджей</span></div><div><strong id="stat-members">—</strong><span>участий</span></div><div><strong>24/7</strong><span>мотивация</span></div></div>
+        </div>
+        <div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="run-track"><span class="track-number">01</span><span class="track-line"></span><span class="track-word">MOVE<br>MORE</span></div><div class="art-label">ТВОЙ ТЕМП · ТВОЯ ЦЕЛЬ</div><div class="art-circle">↗</div></div>
+      </section>
+
+      <section class="challenge-section" id="challenges">
+        <div class="section-top"><div><p class="eyebrow dark">ВЫБЕРИ СВОЙ МАРШРУТ</p><h2>Актуальные челленджи<span class="accent-dot">.</span></h2></div><p class="section-intro">Начните с малого или проверьте себя на прочность. Каждый результат приближает к цели.</p></div>
+        <div class="toolbar"><div class="filter-group" role="group" aria-label="Фильтр челленджей"><button class="filter active" data-sport="">Все</button><button class="filter" data-sport="Бег">Бег</button><button class="filter" data-sport="Силовые">Силовые</button><button class="filter" data-sport="Велоспорт">Велоспорт</button></div><button class="button button-dark" id="create-open">+ Создать челлендж</button></div>
+        <div id="notice" class="notice" role="status" hidden></div>
+        <div id="challenge-grid" class="challenge-grid"><div class="loading-card">Загружаем челленджи…</div></div>
+      </section>
+
+      <section class="about-section" id="about"><div class="about-index">02 / КАК ЭТО РАБОТАЕТ</div><div><h2>Цель становится ближе,<br>когда ты не один.</h2><p>Выберите челлендж, присоединитесь и записывайте результаты. Таблица участников обновляется в реальном времени. Организаторы создают испытания, а администратор следит за доступом.</p></div><div class="about-steps"><div><span>01</span><strong>Выбирайте</strong><p>Найдите активный челлендж по виду спорта.</p></div><div><span>02</span><strong>Действуйте</strong><p>Фиксируйте каждую тренировку и свой прогресс.</p></div><div><span>03</span><strong>Достигайте</strong><p>Следите за результатами в общей таблице.</p></div></div></section>
+    </main>
+    <footer><span class="brand footer-brand"><span class="brand-mark">↗</span><span>ИМПУЛЬС</span></span><span>Платформа спортивных челленджей</span><span>Курсовой проект · 2026</span></footer>
+  </div>
+
+  <dialog id="auth-dialog" class="modal"><form method="dialog" class="modal-inner" id="auth-form"><button type="button" class="modal-close" data-close="auth-dialog" aria-label="Закрыть">×</button><p class="eyebrow dark">ВАШ ЛИЧНЫЙ СТАРТ</p><h2 id="auth-title">Вход в аккаунт</h2><p class="modal-subtitle">Сохраняйте результаты и участвуйте в челленджах.</p><div id="register-fields" hidden><label>Имя<input name="display_name" autocomplete="name" minlength="2" maxlength="80"></label></div><label>Электронная почта<input name="email" type="email" autocomplete="email" required></label><label>Пароль<input name="password" type="password" autocomplete="current-password" required minlength="10"></label><p class="form-error" id="auth-error" role="alert"></p><button class="button button-primary form-submit" type="submit" id="auth-submit">Войти</button><button class="text-button" type="button" id="auth-toggle">Нет аккаунта? Зарегистрироваться</button></form></dialog>
+
+  <dialog id="create-dialog" class="modal"><form method="dialog" class="modal-inner wide" id="create-form"><button type="button" class="modal-close" data-close="create-dialog" aria-label="Закрыть">×</button><p class="eyebrow dark">НОВАЯ ЦЕЛЬ</p><h2>Создать челлендж</h2><div class="form-grid"><label>Название<input name="title" required minlength="3" maxlength="120" placeholder="Например, 30 километров за неделю"></label><label>Вид спорта<input name="sport" required minlength="2" maxlength="50" placeholder="Бег"></label><label>Единица измерения<input name="unit" required maxlength="30" placeholder="км"></label><label>Цель<input name="target_value" type="number" min="1" max="1000000" required></label><label>Начало<input name="starts_at" type="datetime-local" required></label><label>Окончание<input name="ends_at" type="datetime-local" required></label></div><label>Описание<textarea name="description" required minlength="10" maxlength="2000" rows="3" placeholder="Расскажите участникам о правилах"></textarea></label><p class="form-error" id="create-error" role="alert"></p><button class="button button-primary form-submit" type="submit">Опубликовать челлендж</button></form></dialog>
+
+  <dialog id="detail-dialog" class="modal detail-modal"><div class="modal-inner wide"><button type="button" class="modal-close" data-close="detail-dialog" aria-label="Закрыть">×</button><div id="detail-content"></div></div></dialog>
+</body>
+</html>
