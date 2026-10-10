@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam classBackgroundColor #F3F8E8
+skinparam classBorderColor #648632
+class User {
+  +id: int
+  +email: str
+  +display_name: str
+  +password_hash: str
+  +role: str
+}
+class Challenge {
+  +id: int
+  +title: str
+  +sport: str
+  +target_value: int
+  +starts_at: datetime
+  +ends_at: datetime
+  +status: str
+}
+class Participation {
+  +id: int
+  +joined_at: datetime
+}
+class ProgressEntry {
+  +id: int
+  +value: int
+  +note: str
+  +recorded_at: datetime
+}
+User "1" -- "0..*" Challenge : создаёт >
+User "1" -- "0..*" Participation : вступает >
+Challenge "1" -- "0..*" Participation : содержит >
+Participation "1" -- "0..*" ProgressEntry : фиксирует >
+@enduml

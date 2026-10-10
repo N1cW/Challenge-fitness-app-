@@ -1,0 +1,29 @@
+@startuml
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+actor "Участник" as U
+participant "Веб-клиент" as F
+participant "FastAPI" as A
+database "PostgreSQL" as D
+participant "WebSocket Hub" as W
+participant "Другие клиенты" as C
+U -> F : Ввод результата
+F -> A : POST /api/challenges/{id}/progress\nAuthorization: Bearer JWT
+A -> A : Проверка JWT, срока и участия
+alt данные корректны
+  A -> D : INSERT progress_entries
+  D --> A : COMMIT
+  A -> W : progress.added
+  W -> C : {event, challenge_id}
+  A --> F : 201 + запись прогресса
+  F -> A : GET /leaderboard
+  A -> D : SELECT участники и результаты
+  D --> A : данные
+  A --> F : таблица результатов
+  F --> U : Обновлённый прогресс
+else ошибка прав или валидации
+  A --> F : 403 / 409 / 422
+  F --> U : Сообщение об ошибке
+end
+@enduml

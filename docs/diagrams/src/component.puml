@@ -1,0 +1,18 @@
+@startuml
+left to right direction
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam componentStyle rectangle
+skinparam componentBackgroundColor #F3F8E8
+skinparam componentBorderColor #648632
+actor "Пользователь" as user
+component "Веб-клиент\nHTML / CSS / JavaScript" as web
+component "Nginx\nстатика + proxy" as proxy
+component "FastAPI\nAuth, роли, CRUD, WebSocket, ORM" as api
+database "PostgreSQL\n(SQLite локально)" as db
+user --> web
+web --> proxy : HTTP / WS
+proxy --> api : /api и /ws
+api --> db : SQL
+@enduml

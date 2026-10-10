@@ -1,0 +1,31 @@
+@startuml
+left to right direction
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam usecaseBackgroundColor #F3F8E8
+skinparam usecaseBorderColor #648632
+actor "Гость" as Guest
+actor "Участник" as User
+actor "Организатор" as Org
+actor "Администратор" as Admin
+User --|> Guest
+Org --|> User
+Admin --|> Org
+rectangle "Платформа спортивных челленджей" {
+  usecase "Просмотреть\nчелленджи" as Browse
+  usecase "Зарегистрироваться\nи войти" as Auth
+  usecase "Вступить / выйти" as Join
+  usecase "Записать результат" as Progress
+  usecase "Смотреть таблицу\nучастников" as Board
+  usecase "Создать / изменить\nсвой челлендж" as Manage
+  usecase "Изменить любой\nчеллендж" as All
+}
+Guest --> Browse
+Guest --> Auth
+Guest --> Board
+User --> Join
+User --> Progress
+Org --> Manage
+Admin --> All
+@enduml

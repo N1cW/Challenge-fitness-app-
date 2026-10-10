@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam nodeBackgroundColor #F3F8E8
+skinparam nodeBorderColor #648632
+node "Компьютер пользователя" as client {
+  artifact "Браузер\nJavaScript-клиент" as browser
+}
+node "Хост Docker Compose" as host {
+  node "Контейнер frontend" as front {
+    artifact "Nginx + статические файлы" as nginx
+  }
+  node "Контейнер backend" as back {
+    artifact "FastAPI + Uvicorn" as api
+  }
+  database "Контейнер db\nPostgreSQL + volume pgdata" as db
+}
+browser --> nginx : HTTP :8080 / WebSocket
+nginx --> api : reverse proxy :8000
+api --> db : SQL :5432
+@enduml

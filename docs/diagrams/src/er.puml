@@ -1,0 +1,47 @@
+@startuml
+left to right direction
+hide circle
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam classBackgroundColor #F3F8E8
+skinparam classBorderColor #648632
+entity "users" as users {
+  * id : PK
+  --
+  * email : UNIQUE
+  * display_name
+  * password_hash
+  * role
+  * created_at
+}
+entity "challenges" as challenges {
+  * id : PK
+  --
+  * created_by : FK users.id
+  * title, description
+  * sport, unit
+  * target_value
+  * starts_at, ends_at
+  * status
+}
+entity "participations" as participations {
+  * id : PK
+  --
+  * user_id : FK users.id
+  * challenge_id : FK challenges.id
+  * joined_at
+  --
+  UNIQUE(user_id, challenge_id)
+}
+entity "progress_entries" as entries {
+  * id : PK
+  --
+  * participation_id : FK participations.id
+  * value, note, recorded_at
+}
+users ||--o{ challenges : создаёт
+users ||--o{ participations : участвует
+challenges ||--o{ participations : содержит
+participations ||--o{ entries : имеет
+@enduml
