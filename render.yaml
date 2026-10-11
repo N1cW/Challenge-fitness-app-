@@ -1,7 +1,37 @@
 services:
   - type: web
-    name: challenge-fitness-app
+    name: challenge-fitness-staging
     runtime: python
+    branch: staging
+    region: frankfurt
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
+    initialDeployHook: python -m backend.app.seed
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: APP_ENV
+        value: staging
+      - key: PYTHON_VERSION
+        value: 3.12.11
+      - key: SECRET_KEY
+        generateValue: true
+      - key: TOKEN_TTL_MINUTES
+        value: "120"
+      - key: SEED_DEMO_DATA
+        value: "true"
+      - key: SEED_PASSWORD
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: challenge-fitness-staging-db
+          property: connectionString
+
+  - type: web
+    name: challenge-fitness-prod
+    runtime: python
+    branch: prod
     region: frankfurt
     plan: free
     buildCommand: pip install -r backend/requirements.txt
@@ -24,13 +54,20 @@ services:
         sync: false
       - key: DATABASE_URL
         fromDatabase:
-          name: challenge-fitness-db
+          name: challenge-fitness-prod-db
           property: connectionString
 
 databases:
-  - name: challenge-fitness-db
-    databaseName: challenge_fitness
-    user: challenge_fitness
+  - name: challenge-fitness-staging-db
+    databaseName: challenge_fitness_staging
+    user: challenge_fitness_staging
+    region: frankfurt
+    plan: free
+    ipAllowList: []
+
+  - name: challenge-fitness-prod-db
+    databaseName: challenge_fitness_prod
+    user: challenge_fitness_prod
     region: frankfurt
     plan: free
     ipAllowList: []
