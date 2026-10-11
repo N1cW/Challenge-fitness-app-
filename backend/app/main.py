@@ -9,7 +9,7 @@ from sqlalchemy import select, text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from .database import Base, engine, get_db
+from .database import engine, get_db, initialize_database
 from .models import Challenge, Participation, ProgressEntry, User
 from .schemas import (
     ChallengeIn, ChallengeOut, ChallengePatch, LeaderboardRow, LoginIn,
@@ -20,7 +20,7 @@ from .security import create_token, current_user, decode_token, hash_password, r
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    Base.metadata.create_all(bind=engine)
+    initialize_database(engine)
     yield
 
 

@@ -75,7 +75,8 @@ def test_render_database_url_uses_declared_psycopg_driver(monkeypatch):
         return object()
 
     monkeypatch.setattr(database, "create_engine", fake_create_engine)
-    database.make_engine("postgresql://user:password@db.example/app")
+    database.make_engine("postgresql://user:password@db.example/app", schema="app_staging")
 
     assert captured["url"] == "postgresql+psycopg://user:password@db.example/app"
     assert captured["kwargs"]["pool_pre_ping"] is True
+    assert captured["kwargs"]["connect_args"] == {"options": "-csearch_path=app_staging,public"}

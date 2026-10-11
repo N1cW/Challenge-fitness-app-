@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 
 from sqlalchemy import select
 
-from .database import Base, SessionLocal, engine
+from .database import SessionLocal, engine, initialize_database
 from .models import Challenge, User
 from .security import hash_password
 
@@ -21,7 +21,7 @@ def main():
     password = os.getenv("SEED_PASSWORD", "")
     if len(password) < 10:
         raise SystemExit("Set SEED_PASSWORD to at least 10 characters")
-    Base.metadata.create_all(engine)
+    initialize_database(engine)
     with SessionLocal() as db:
         users = {}
         for role, name in (("admin", "Администратор"), ("organizer", "Организатор"), ("user", "Участник")):

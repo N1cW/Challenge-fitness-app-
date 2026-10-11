@@ -13,6 +13,8 @@ services:
     envVars:
       - key: APP_ENV
         value: staging
+      - key: DB_SCHEMA
+        value: app_staging
       - key: PYTHON_VERSION
         value: 3.12.11
       - key: SECRET_KEY
@@ -25,7 +27,7 @@ services:
         sync: false
       - key: DATABASE_URL
         fromDatabase:
-          name: challenge-fitness-staging-db
+          name: challenge-fitness-prod-db
           property: connectionString
 
   - type: web
@@ -42,6 +44,8 @@ services:
     envVars:
       - key: APP_ENV
         value: production
+      - key: DB_SCHEMA
+        value: app_production
       - key: PYTHON_VERSION
         value: 3.12.11
       - key: SECRET_KEY
@@ -58,13 +62,6 @@ services:
           property: connectionString
 
 databases:
-  - name: challenge-fitness-staging-db
-    databaseName: challenge_fitness_staging
-    user: challenge_fitness_staging
-    region: frankfurt
-    plan: free
-    ipAllowList: []
-
   - name: challenge-fitness-prod-db
     databaseName: challenge_fitness_prod
     user: challenge_fitness_prod
