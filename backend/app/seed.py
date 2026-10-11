@@ -1,6 +1,7 @@
-"""Create repeatable development-only users and example challenges.
+"""Create repeatable demo users and example challenges.
 
-Usage: APP_ENV=development SEED_PASSWORD=<chosen-password> python -m app.seed
+Local usage: APP_ENV=development SEED_PASSWORD=<chosen-password> python -m app.seed
+Hosted demo: set SEED_DEMO_DATA=true and provide SEED_PASSWORD as a secret.
 """
 import os
 from datetime import datetime, timedelta, timezone
@@ -13,8 +14,10 @@ from .security import hash_password
 
 
 def main():
-    if os.getenv("APP_ENV", "development") != "development":
-        raise SystemExit("Seed is only available in development")
+    app_env = os.getenv("APP_ENV", "development")
+    seed_demo_data = os.getenv("SEED_DEMO_DATA", "false").lower() == "true"
+    if app_env != "development" and not seed_demo_data:
+        raise SystemExit("Set SEED_DEMO_DATA=true explicitly to seed a hosted demo")
     password = os.getenv("SEED_PASSWORD", "")
     if len(password) < 10:
         raise SystemExit("Set SEED_PASSWORD to at least 10 characters")
@@ -36,7 +39,7 @@ def main():
                 Challenge(title="100 отжиманий", description="Выполните сто отжиманий за неделю, разбивая нагрузку на подходы.", sport="Силовые", unit="раз", target_value=100, starts_at=now - timedelta(days=1), ends_at=now + timedelta(days=7), created_by=users["organizer"].id),
             ])
         db.commit()
-    print("Development users and challenges are ready")
+    print("Demo users and challenges are ready")
 
 
 if __name__ == "__main__":

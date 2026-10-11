@@ -62,3 +62,20 @@ def test_websocket_broadcast(client, db):
 
 def test_health(client):
     assert client.get("/api/health").json() == {"status":"ok"}
+
+
+def test_render_database_url_uses_declared_psycopg_driver(monkeypatch):
+    from app import database
+
+    captured = {}
+
+    def fake_create_engine(url, **kwargs):
+        captured["url"] = url
+        captured["kwargs"] = kwargs
+        return object()
+
+    monkeypatch.setattr(database, "create_engine", fake_create_engine)
+    database.make_engine("postgresql://user:password@db.example/app")
+
+    assert captured["url"] == "postgresql+psycopg://user:password@db.example/app"
+    assert captured["kwargs"]["pool_pre_ping"] is True
